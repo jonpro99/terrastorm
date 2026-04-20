@@ -1,0 +1,39 @@
+cloud-architecture-diagram
+
+title Contract Manager Architecture
+
+User [icon: user]
+
+EKS Cluster [icon: aws-eks] {
+  Contract Manager Namespace [icon: k8s-ns] {
+    Contract Manager Service [icon: k8s-pod]
+    Hazelcast [icon: server]
+  }
+}
+
+Storage [icon: aws-s3] {
+  Contract Definition Bucket [icon: aws-s3]
+  Customer Files Bucket [icon: aws-s3]
+  EHCM Integration Bucket [icon: aws-s3]
+}
+
+ElastiCache Redis [icon: aws-elasticache]
+
+RabbitMQ [icon: aws-mq]
+
+IAM Roles Anywhere [icon: aws-iam] {
+  Sync Role [icon: key]
+}
+
+"On-Premises" [icon: server] {
+  External Client [icon: monitor]
+}
+
+// Connections
+User > Contract Manager Service
+Contract Manager Service <> ElastiCache Redis: cache rules
+Contract Manager Service <> RabbitMQ: messaging
+Contract Manager Service <> Hazelcast: distributed cache
+External Client > Sync Role: authenticate
+Sync Role > Customer Files Bucket: sync files
+Contract Manager Service <> Storage

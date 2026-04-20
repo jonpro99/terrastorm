@@ -1,0 +1,28 @@
+cloud-architecture-diagram
+
+title EC2 SSM Session Access
+direction right
+title EC2 SSM Session Access
+
+Users [icon: users]
+
+AWS [icon: aws] {
+  IAM [icon: aws-iam] {
+    IAM Roles [icon: aws-iam-role]
+    SSM Session Policy [icon: file-text]
+  }
+
+  EC2 Instances [icon: aws-ec2] {
+    Tagged Instances [icon: aws-ec2, label: "SSM_Access: ClaimSource"]
+  }
+
+  Systems Manager [icon: aws-systems-manager] {
+    Session Manager [icon: terminal]
+  }
+}
+
+// Connections
+Users > IAM Roles: assume role
+IAM Roles > SSM Session Policy: attached
+SSM Session Policy > Session Manager: authorize
+Session Manager <> Tagged Instances: SSM session
